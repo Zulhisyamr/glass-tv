@@ -292,6 +292,17 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         btnWifi = findViewById(R.id.btnWifi);
         if (!cfg.showNetworkPill) btnWifi.setVisibility(View.GONE);
         shamsiDate = findViewById(R.id.shamsiDate);
+        final TextView prayerView = findViewById(R.id.prayerTimes);
+        PrayerTimes.load(MainActivity.this, new PrayerTimes.Callback() {
+            @Override public void onText(final String t) {
+                runOnUiThread(new Runnable() {
+                    @Override public void run() {
+                        prayerView.setText(t);
+                        prayerView.setVisibility(t.isEmpty() ? View.GONE : View.VISIBLE);
+                    }
+                });
+            }
+        });
         shamsi = cfg.shamsiDate;
         if (shamsi) {
             shamsiDate.setVisibility(View.VISIBLE);
